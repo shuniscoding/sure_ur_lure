@@ -1,39 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # メール、パスワードがあれば有効な状態であること
-  it "is valid with an email and password" do
-    user = User.new(
-      email: "text@example.com",
-      password: "supersecurepassword"
-    )
-    expect(user).to be_valid
+
+  # 有効なファクトリを持つこと(メール、パスワードがあれば有効な状態であること)
+  it "has a valid factory" do
+    expect(FactoryBot.build(:user)).to be_valid
   end
   
   # メールアドレスがなければ無効な状態であること
   it "is invalid without an email address" do
-    user = User.new(email: nil)
+    user = FactoryBot.build(:user, email: nil)
     user.valid?
     expect(user.errors[:email]).to include("can't be blank") 
   end
 
   # パスワードがなければ無効な状態であること
   it "is invalid without an password" do
-    user = User.new(email: nil)
+    user = FactoryBot.build(:user, password: nil)
     user.valid?
-    expect(user.errors[:email]).to include("can't be blank") 
+    expect(user.errors[:password]).to include("can't be blank") 
   end 
   
   # 重複したメールアドレスなら無効な状態であること
   it "is invalid with a duplicate email address" do
-    User.create(
-      email: "text@example.com",
-      password: "supersecurepassword"
-    )
-    user = User.new(
-      email: "text@example.com",
-      password: "supersecurepassword"
-    )
+    FactoryBot.create(:user, email: "sample@example.com")
+    user = FactoryBot.build(:user, email: "sample@example.com")
     user.valid?
     expect(user.errors[:email]).to include("has already been taken")
   end
