@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_09_024015) do
+ActiveRecord::Schema.define(version: 2018_10_09_044842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "catches", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "lure_id"
+    t.bigint "location_id"
+    t.bigint "weather_id"
+    t.date "catch_date"
+    t.time "catch_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_catches_on_location_id"
+    t.index ["lure_id"], name: "index_catches_on_lure_id"
+    t.index ["user_id"], name: "index_catches_on_user_id"
+    t.index ["weather_id"], name: "index_catches_on_weather_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "lures", force: :cascade do |t|
     t.string "type"
@@ -35,4 +56,14 @@ ActiveRecord::Schema.define(version: 2018_10_09_024015) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "weathers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "catches", "locations"
+  add_foreign_key "catches", "lures"
+  add_foreign_key "catches", "users"
+  add_foreign_key "catches", "weathers"
 end
