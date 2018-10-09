@@ -5,3 +5,37 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# 天気のデータを生成
+weathers = [{ name: '晴れ' }, { name: '曇り' }, { name: '雨' }]
+Weather.create!(weahters) { |w| puts w.name}
+
+# 釣り場のデータを生成
+locations = [{
+    name: 'としまえんフィッシングエリア'
+  },
+  {
+    name: '開成水辺フォレストスプリングス'
+  },
+  {
+    name: '浅川国際鱒釣場'
+  },
+  {
+    name: '秋川国際鱒釣場'
+  },
+  {
+    name: '奥多摩フィッシングセンター'
+  },
+  {
+    name: '氷川国際ます釣り場'
+  },
+  {
+    name: 'TOKYOトラウトカントリー'
+  },
+  {
+    name: 'フィッシュオン王禅寺'
+  }
+]
+Location.create!(locations) { |l| puts l.name}
+
+# 
