@@ -38,4 +38,13 @@ locations = [{
 ]
 Location.create!(locations) { |l| puts l.name}
 
-# 
+# ユーザーのデータを生成
+3.times do |i|
+  User.create!(
+    email: Faker::Internet.safe_email,
+    password: Faker::Internet.password
+  )
+end
+puts "Created #{User.count} users"
+
+
