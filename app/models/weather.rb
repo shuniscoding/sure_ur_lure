@@ -1,3 +1,3 @@
 class Weather < ApplicationRecord
-  has_many :catches
+  belongs_to :lure
 end

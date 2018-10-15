@@ -1,4 +1,4 @@
 class Lure < ApplicationRecord
-  has_many :catches
-  has_many :users, :through => :catches  
+  has_many :catches, :colors, :weights, :locations, :weathers
+  has_many :users, :through => :catches
 end

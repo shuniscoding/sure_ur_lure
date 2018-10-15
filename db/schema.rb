@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_09_044842) do
+ActiveRecord::Schema.define(version: 2018_10_15_075216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,16 +18,16 @@ ActiveRecord::Schema.define(version: 2018_10_09_044842) do
   create_table "catches", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "lure_id"
-    t.bigint "location_id"
-    t.bigint "weather_id"
-    t.date "catch_date"
-    t.time "catch_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["location_id"], name: "index_catches_on_location_id"
     t.index ["lure_id"], name: "index_catches_on_lure_id"
     t.index ["user_id"], name: "index_catches_on_user_id"
-    t.index ["weather_id"], name: "index_catches_on_weather_id"
+  end
+
+  create_table "colors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -37,11 +37,16 @@ ActiveRecord::Schema.define(version: 2018_10_09_044842) do
   end
 
   create_table "lures", force: :cascade do |t|
-    t.string "type"
-    t.string "color"
-    t.float "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "color_id"
+    t.bigint "weight_id"
+    t.bigint "location_id"
+    t.bigint "weather_id"
+    t.index ["color_id"], name: "index_lures_on_color_id"
+    t.index ["location_id"], name: "index_lures_on_location_id"
+    t.index ["weather_id"], name: "index_lures_on_weather_id"
+    t.index ["weight_id"], name: "index_lures_on_weight_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -62,8 +67,16 @@ ActiveRecord::Schema.define(version: 2018_10_09_044842) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "catches", "locations"
+  create_table "weights", force: :cascade do |t|
+    t.integer "milligram"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "catches", "lures"
   add_foreign_key "catches", "users"
-  add_foreign_key "catches", "weathers"
+  add_foreign_key "lures", "colors"
+  add_foreign_key "lures", "locations"
+  add_foreign_key "lures", "weathers"
+  add_foreign_key "lures", "weights"
 end
